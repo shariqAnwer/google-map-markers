@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps</title>
+    <style>
+        #map {
+            width: 100%;;
+            height: 100vh;
+        }
+        * {
+            padding: 0px;;
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
+
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjnk5Fv3rIYPtrM1e_ZZzKvePTS1NRZVU"></script>
+
+    <script>
+        let map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 12.96280, lng: 77.57612  },
+            zoom: 18,
+        });
+
+       
+
+        var image = {
+                // url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                icon : "./pin.png",
+                // This marker is 30 pixels wide by 42 pixels high.
+                size: new google.maps.Size(40, 52),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(0, 32),
+                // Here's the labelOrigin
+                labelOrigin: new google.maps.Point(10, 50)
+            };
+
+            const markers = [
+                { lat: 12.96149, lng: 77.57780, info: "Patel Bakery"},
+                { lat: 12.96280, lng: 77.57612,  info: "Bengaluru Fort"},
+                { lat: 12.96253, lng: 77.57452,  info: "Infosys Laboratory"},
+                { lat: 12.96170, lng: 77.57524,  info: "Vanivilas Hospital"},
+                { lat: 12.96371, lng: 77.57759,  info: "Taj Hotel"},
+            ]
+
+            markers.map(data=>{
+                const marker = new google.maps.Marker({
+
+                position: { lat: data.lat, lng: data.lng  },
+                map,
+                // title: "Fort High School",
+                draggable : false,
+                icon: image,
+                label: {
+                    color: "black",
+                    fontSize : '22px',
+                    fontWeight: '500',
+                    text: data.info,
+                    }
+                });
+
+                const popupContent = new google.maps.InfoWindow();
+
+                google.maps.event.addListener(marker, 'click', (function(marker) {
+                return function() {
+                    popupContent.setContent(data.info)
+                    popupContent.open(map, marker)
+                }
+                })(marker)
+                )
+                marker.setMap(map)
+            })
+
+
+
+        // const marker = new google.maps.Marker({
+
+        //     position: { lat: 12.95864, lng: 77.57353  },
+        //     map,
+        //     title: "Fort High School",
+        //     draggable : true,
+        //     icon: image,
+        //     label: {
+        //         color: "black",
+        //         fontSize : '25px',
+        //         fontWeight: '500',
+        //         text: "Fort High School"
+        //         }
+        // });
+
+        // const popupContent = new google.maps.InfoWindow();
+
+        // google.maps.event.addListener(marker, 'click', (function(marker) {
+        //     return function() {
+        //         popupContent.setContent("Fort High School").style("font-size") = "15px"
+        //         popupContent.open(map, marker)
+        //     }
+        // })(marker)
+        // )
+        // marker.setMap(map)
+
+    </script>
